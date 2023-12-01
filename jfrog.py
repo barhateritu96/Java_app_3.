@@ -4,7 +4,7 @@ import requests
 import subprocess
 
 def jfrogUpload():
-    url = "http://52.205.212.2:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"
+    url = "http://54.198.45.10:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"
     file_path = "/var/lib/jenkins/workspace/NewPipeline/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"
     username = 'admin'
     password = 'Password@123'
