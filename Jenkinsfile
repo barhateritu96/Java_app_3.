@@ -3,13 +3,14 @@
 pipeline{
 
     agent any
+    //agent { label 'Demo' }
 
     parameters{
 
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
         string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
         string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'vootlasaicharan')
+        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'barhateritu96')
     }
 
     stages{
@@ -19,7 +20,7 @@ pipeline{
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/VootlaSaiCharan/Java_app_3.0.git"
+                url: "https://github.com/barhateritu96/Java_app_3.0.git"
             )
             }
         }
@@ -72,14 +73,14 @@ pipeline{
                }
             }
         }
-       // stage ('Pushing Jar to Jfrog : python'){
-      //    when { expression {  params.action == 'create' } }
-        //  steps{
-          //  script{
-            //    jfrogPush()
-       //         }
-     //       }
-     //   }
+        /* stage('Push JAR to JFrog :python'){
+            when { expression {params.action == 'create'}}
+            steps{
+                script{
+                    jarPush()
+                }
+            }
+        }*/
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
@@ -98,14 +99,6 @@ pipeline{
                }
             }
         }
-      //  stage ('Pushing Jfrog File'){
-      //    when { expression {  params.action == 'create' } }
-       //   steps{
-       //     script{
-                // sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/java-3.0/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://18.234.253.20:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
-         //       }
-      //      }
-     //   }
         stage('Docker Image Push : DockerHub '){
          when { expression {  params.action == 'create' } }
             steps{
@@ -123,6 +116,6 @@ pipeline{
                    dockerImageCleanup("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }
-        }
+        }      
     }
 }
